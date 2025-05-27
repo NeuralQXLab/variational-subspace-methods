@@ -1,5 +1,5 @@
 [project]
-name = "subspace"
+name = "variational_subspace_methods"
 version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
@@ -17,3 +17,9 @@ bridge = { path = "libraries/bridge", editable = true }
 ptvmc = { path = "libraries/ptvmc", editable = true }
 netket-pro = { path = "libraries/netket_pro", editable = true }
 deepnets = { path = "libraries/deepnets", editable = true }
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "jupyter>=1.1.1",
+]
