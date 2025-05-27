@@ -4,9 +4,16 @@ version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
     "bridge",
+    "deepnets",
     "matplotlib>=3.10.3",
+    "netket-pro",
+    "nqxpack>=0.1.2",
+    "ptvmc",
     "qutip>=5.1.1",
 ]
 
 [tool.uv.sources]
 bridge = { path = "libraries/bridge", editable = true }
+ptvmc = { path = "libraries/ptvmc", editable = true }
+netket-pro = { path = "libraries/netket_pro", editable = true }
+deepnets = { path = "libraries/deepnets", editable = true }
