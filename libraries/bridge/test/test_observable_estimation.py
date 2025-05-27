@@ -3,10 +3,7 @@ import numpy as np
 import netket as nk
 import bridge
 
-from test import common
 
-
-@common.xfailif_distributed
 @pytest.mark.parametrize("seed", [0, 1, 2])
 @pytest.mark.parametrize("n_qubits, m_states", [(5, 4), (3, 2)])
 def test_observable_estimation(n_qubits, m_states, seed):

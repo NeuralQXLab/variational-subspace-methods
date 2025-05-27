@@ -6,8 +6,6 @@ import bridge
 
 import qutip as qt
 
-from test import common
-
 additional_bridge_args_list = [
     {"n_samples": 3000, "estimation_method": "determinant_state"},
     {
@@ -31,7 +29,6 @@ additional_bridge_args_list = [
 ]
 
 
-@common.xfailif_distributed
 @pytest.mark.parametrize("n_qubits, m_states", [(5, 5), (6, 7)])
 @pytest.mark.parametrize("chunk_size", [None, 1])
 @pytest.mark.parametrize("discard_imaginary", [True, False])
