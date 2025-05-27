@@ -1,6 +1,6 @@
 # Variational subspace methods
 
-This repository contains the library `bridge` that implements the variational dynamics post-processing method explored in the paper *Variational subspace methods and application to improving variational Monte Carlo dynamics*, as well as the data and scripts corresponding to the figures of the paper.
+This repository contains the library `bridge` that implements the variational dynamics post-processing method explored in the paper *Variational subspace methods and application to improving variational Monte Carlo dynamics*, as well as examples on how to use it, and the data and scripts corresponding to the figures of the paper.
 
 ## Structure
 
@@ -10,7 +10,7 @@ This repository contains the library `bridge` that implements the variational dy
 - `figures`: The data and scripts required to reproduce the figures of the paper. For each figure, it contains the basis states that were used for bridge, the script to run bridge, the data of the simulation, and the script to plot this data.
 - `libraries`:
     - `bridge`: The library that implements bridge. It also contains tools to create and manipulate the determinant state described in section 2 of the paper.
-    - `networks`: The library containing the networks required to load the basis variational states for the examples and the figures.
+    - The other libraries serve to define the networks used in the paper and ensure that the basis states can be loaded.
 
 ## Installation
 
@@ -25,6 +25,8 @@ git clone https://github.com/NeuralQXLab/variational-subspace-methods
 cd variational-subspace-methods
 pip install -e .
 ```
+
+In order to run with GPU, you should add `"jax[cuda]"` to your environment.
 
 ## Further information
 For further questions, you can contact adrien.kahn.x19@polytechnique.edu.

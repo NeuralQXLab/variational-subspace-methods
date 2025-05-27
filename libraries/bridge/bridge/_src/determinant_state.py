@@ -72,10 +72,16 @@ class DeterminantModel(nn.Module):
         samples = samples.reshape((*batch_shape, self.m_states, self.n_qubits))
         connected_samples, connected_elements = operator.get_conn_padded(samples)
         connected_samples = connected_samples.reshape(-1, 1, self.n_qubits)
-        repeated_connected_samples = jnp.repeat(connected_samples, self.m_states, axis=1)
+        repeated_connected_samples = jnp.repeat(
+            connected_samples, self.m_states, axis=1
+        )
         connected_amplitudes = jnp.exp(self.vmap_network(repeated_connected_samples))
-        connected_amplitudes = connected_amplitudes.reshape(*batch_shape, self.m_states, -1, self.m_states)
-        return jnp.sum(connected_amplitudes * connected_elements[..., jnp.newaxis], axis=-2)
+        connected_amplitudes = connected_amplitudes.reshape(
+            *batch_shape, self.m_states, -1, self.m_states
+        )
+        return jnp.sum(
+            connected_amplitudes * connected_elements[..., jnp.newaxis], axis=-2
+        )
 
     def construct_individual_amplitudes(self, samples):
         """Return the amplitudes $langle s_k | phi_k rangle$."""
@@ -147,14 +153,17 @@ def construct_determinant_state(
 
     if cls is None:
         cls = type(states[0])
-    
+
     if chunk_size is None:
         chunk_size = states[0].chunk_size
 
     if issubclass(cls, nk.vqs.FullSumState):
 
         determinant_state = cls(
-            extended_hilbert_space, determinant_model, chunk_size=chunk_size, seed=jax.random.PRNGKey(seed)
+            extended_hilbert_space,
+            determinant_model,
+            chunk_size=chunk_size,
+            seed=jax.random.PRNGKey(seed),
         )
 
     elif issubclass(cls, nk.vqs.MCState):

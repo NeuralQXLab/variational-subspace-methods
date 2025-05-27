@@ -5,8 +5,8 @@ import netket as nk
 
 from functools import partial
 
-from netket.jax.sharding import with_samples_sharding_constraint
 from netket.sampler.metropolis import _assert_good_sample_shape
+from netket.jax.sharding import shard_along_axis
 
 from typing import Any
 
@@ -277,7 +277,7 @@ class DeterminantSampler(nk.sampler.MetropolisSampler):
         key_state, key_rule = jax.random.split(key)
         rule_state = sampler.rule.init_state(sampler, machine, parameters, key_rule)
         σ = jnp.zeros((sampler.n_batches, sampler.hilbert.size), dtype=sampler.dtype)
-        σ = with_samples_sharding_constraint(σ)
+        σ = shard_along_axis(σ, axis=0)
 
         apply_fun = lambda vars, samples: machine.apply(
             vars, samples, method=machine.construct_amplitudes_matrix
@@ -285,19 +285,17 @@ class DeterminantSampler(nk.sampler.MetropolisSampler):
         machine_dtype = jax.eval_shape(apply_fun, parameters, σ).dtype
 
         log_determinant = jnp.zeros((sampler.n_batches,), dtype=complex)
-        log_determinant = with_samples_sharding_constraint(log_determinant)
+        log_determinant = shard_along_axis(log_determinant, axis=0)
 
         amplitude_matrix = jnp.zeros(
             (sampler.n_batches, machine.m_states, machine.m_states), dtype=machine_dtype
         )
-        amplitude_matrix = with_samples_sharding_constraint(amplitude_matrix)
+        amplitude_matrix = shard_along_axis(amplitude_matrix, axis=0)
 
         amplitude_matrix_inverse = jnp.zeros(
             (sampler.n_batches, machine.m_states, machine.m_states), dtype=machine_dtype
         )
-        amplitude_matrix_inverse = with_samples_sharding_constraint(
-            amplitude_matrix_inverse
-        )
+        amplitude_matrix_inverse = shard_along_axis(amplitude_matrix_inverse, axis=0)
 
         state = DeterminantSamplerState(
             σ=σ,
@@ -326,7 +324,7 @@ class DeterminantSampler(nk.sampler.MetropolisSampler):
                 sampler.dtype,
                 f"{sampler.rule}.random_state",
             )
-            σ = with_samples_sharding_constraint(σ)
+            σ = shard_along_axis(σ, axis=0)
             state = state.replace(σ=σ, rng=key_state)
         return state
 

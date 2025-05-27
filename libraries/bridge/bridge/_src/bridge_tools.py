@@ -59,13 +59,15 @@ def construct_linear_state(
 
     if cls is None:
         cls = type(states[0])
-    
+
     if chunk_size is None:
         chunk_size = states[0].chunk_size
 
     if issubclass(cls, nk.vqs.FullSumState):
 
-        linear_state = nk.vqs.FullSumState(hilbert_space, linear_model, chunk_size=chunk_size, seed=seed)
+        linear_state = nk.vqs.FullSumState(
+            hilbert_space, linear_model, chunk_size=chunk_size, seed=seed
+        )
 
     elif issubclass(cls, nk.vqs.MCState):
 
